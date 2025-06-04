@@ -84,10 +84,27 @@ sudo rsync -avh /mnt/backup/ /opt/projects/ | sudo tee outputs/restore-log.txt
 
 ## 📸 Screenshots
 
-### 🧾 Data Restore Confirmation
-Restored files (`alpha.txt`, `beta.txt`) successfully appear under `/opt/projects` after the `rsync` restore operation.
+### 🔍 Initial Setup & LVM Provisioning
 
-![Data Restore Confirmation](images/data-restore-success.png)
+| Step | Description | Screenshot |
+|------|-------------|------------|
+| 1️⃣  | **Before Loopback Setup** – Disk layout before attaching the backup image | ![lsblk before](images/lsblk-before.png) |
+| 2️⃣  | **Loop Device Mounted** – Loopback disk appears after mounting with `losetup` | ![loop device mounted](images/lsblk-loop-mounted.png) |
+| 3️⃣  | **LVM Setup: PV Created** – Physical volume initialized with `pvcreate` | ![LVM Step 1](images/lvm-setup0.png) |
+| 4️⃣  | **LVM Setup: VG + LV Created** – Volume group and logical volume provisioned | ![LVM Step 2](images/lvm-setup1.png) |
+| 5️⃣  | **Filesystem & Mount** – Filesystem formatted and volume mounted to `/mnt/backup` | ![LVM Step 3](images/lvm-setup2.png) |
+| 6️⃣  | **Final Layout** – View of the mounted loopback volume using `lsblk` | ![LVM Step 4](images/lvm-setup3.png) |
+
+---
+
+### 💾 Backup & Restore Process
+
+| Phase | Description | Screenshot |
+|-------|-------------|------------|
+| ✅ Backup Complete | Files `alpha.txt` and `beta.txt` successfully backed up using `rsync` | ![Backup Success](images/rsync-backup-success.png) |
+| ❌ Simulated Failure | Files deleted from `/opt/projects` to simulate data loss | ![Simulated Data Loss](images/data-loss-simulated.png) |
+| 🔁 Restore Log | Output of the restore process captured using `tee` | ![Restore Log Output](images/restore-log-output.png) |
+| 🎯 Recovery Verified | Files restored from backup and visible in `/opt/projects` | ![Data Restored](images/data-restore-success.png) |
 
 ---
 
